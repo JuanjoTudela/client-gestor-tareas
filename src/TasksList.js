@@ -2,11 +2,15 @@ import React from 'react';
 import axios from 'axios';
 import './TasksList.css';
 
+// Establecemos la URL de la API directamente
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
+
 const TasksList = ({ tasks, onDeleteTask, onEditTask }) => {
   const handleCheckboxChange = async (task) => {
     const updatedTask = { ...task, completed: !task.completed };
     try {
-      await axios.put(`${process.env.REACT_APP_API_URL}/tasks/${task.id}`, updatedTask);
+      await axios.put(`${API_URL}/tasks/${task.id}`, updatedTask);
       onEditTask(updatedTask);
     } catch (error) {
       console.error('Error actualizando tarea:', error);
@@ -35,3 +39,4 @@ const TasksList = ({ tasks, onDeleteTask, onEditTask }) => {
 };
 
 export default TasksList;
+

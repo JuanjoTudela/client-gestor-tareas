@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './AddTaskForm.css';
 
+// Establecemos la URL de la API directamente
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
+
 const AddTaskForm = ({ onTaskAdded }) => {
   const [title, setTitle] = useState('');
   const [completed, setCompleted] = useState(false);
@@ -9,7 +13,8 @@ const AddTaskForm = ({ onTaskAdded }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/tasks`, { title, completed });
+      // Cambiamos la URL directamente
+      const response = await axios.post(`${API_URL}/tasks`, { title, completed });
       console.log('Tarea añadida:', response.data);
       onTaskAdded(response.data);
     } catch (error) {
@@ -45,6 +50,7 @@ const AddTaskForm = ({ onTaskAdded }) => {
 };
 
 export default AddTaskForm;
+
 
 
 

@@ -1,15 +1,18 @@
+
 import React, { useState, useEffect } from 'react';
 import TasksList from './TasksList';
 import AddTaskForm from './AddTaskForm';
-import EditTaskForm from './EditTaskForm'; // Añadimos el nuevo formulario de edición
+import EditTaskForm from './EditTaskForm';
 import axios from 'axios';
-import './App.css'; // Importa el archivo CSS
+import './App.css';
 
-const API_URL = process.env.REACT_APP_API_URL;
+// Establecemos la URL de la API directamente
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [taskToEdit, setTaskToEdit] = useState(null); // Estado para la tarea que se está editando
+  const [taskToEdit, setTaskToEdit] = useState(null);
 
   const fetchTasks = async () => {
     try {
@@ -37,19 +40,17 @@ function App() {
     }
   };
 
-  // Función para seleccionar una tarea a editar
   const editTask = (task) => {
     setTaskToEdit(task);
   };
 
-  // Función para actualizar la tarea en el estado y en el servidor
   const updateTask = async (updatedTask) => {
     try {
       const response = await axios.put(`${API_URL}/tasks/${updatedTask.id}`, updatedTask);
       setTasks((prevTasks) =>
         prevTasks.map((task) => (task.id === updatedTask.id ? response.data : task))
       );
-      setTaskToEdit(null); // Reseteamos la tarea que se está editando
+      setTaskToEdit(null);
     } catch (error) {
       console.error('Error actualizando tarea:', error);
     }
@@ -69,4 +70,3 @@ function App() {
 }
 
 export default App;
-
