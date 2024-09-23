@@ -5,6 +5,7 @@ import EditTaskForm from './EditTaskForm'; // Añadimos el nuevo formulario de e
 import axios from 'axios';
 import './App.css'; // Importa el archivo CSS
 
+const API_URL = process.env.REACT_APP_API_URL;
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -12,7 +13,7 @@ function App() {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/tasks');
+      const response = await axios.get(`${API_URL}/tasks`);
       setTasks(response.data);
     } catch (error) {
       console.error('Error fetching tasks:', error);
@@ -29,7 +30,7 @@ function App() {
 
   const deleteTask = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/tasks/${id}`);
+      await axios.delete(`${API_URL}/tasks/${id}`);
       setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     } catch (error) {
       console.error('Error eliminando tarea:', error);
@@ -44,7 +45,7 @@ function App() {
   // Función para actualizar la tarea en el estado y en el servidor
   const updateTask = async (updatedTask) => {
     try {
-      const response = await axios.put(`http://localhost:3000/tasks/${updatedTask.id}`, updatedTask);
+      const response = await axios.put(`${API_URL}/tasks/${updatedTask.id}`, updatedTask);
       setTasks((prevTasks) =>
         prevTasks.map((task) => (task.id === updatedTask.id ? response.data : task))
       );
@@ -68,3 +69,4 @@ function App() {
 }
 
 export default App;
+
